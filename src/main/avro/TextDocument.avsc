@@ -1,0 +1,367 @@
+{
+  "name": "TextDocument",
+  "namespace": "com.atomic.document",
+  "type": "record",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string",
+      "doc": "Id is mandatory! For file document id = MD5(creator + fileName + timestampCreated). If one of properties missing replace with empty string (\"\")"
+    },
+    {
+      "name": "parentId",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "name": "chunkId",
+      "type": "int"
+    },
+    {
+      "name": "totalChunks",
+      "type": "int"
+    },
+    {
+      "name": "readerSource",
+      "type": "string"
+    },
+    {
+      "name": "content",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "name": "detectedTime",
+      "type": [
+        "null",
+        {
+          "type": "long",
+          "logicalType": "timestamp-millis"
+        }
+      ]
+    },
+    {
+      "name": "type",
+      "type": ["null", "string"]
+    },
+    {
+      "name": "language",
+      "type": "string"
+    },
+    {
+      "name": "ocrInfo",
+      "type": ["null", {
+        "name": "OcrInfo",
+        "type": "record",
+        "fields": [
+          {"name": "boundingBoxSpans",
+            "type": ["null", {
+              "type": "array",
+              "items": ["null", {
+                "type": "record",
+                "name": "BoundingBoxSpan",
+                "fields": [{
+                  "name": "bounding_box",
+                  "type": ["null", {
+                    "type": "array",
+                    "items": ["null", {
+                      "type": "array",
+                      "items": ["null", "int"]
+                    }]
+                  }],
+                  "default": null
+                }, {
+                  "name": "end",
+                  "type": ["null", "int"],
+                  "default": null
+                }, {
+                  "name": "start",
+                  "type": ["null", "int"],
+                  "default": null
+                }]
+              }]
+            }],
+            "default": null
+          }]
+      }]
+    },
+    {
+      "name": "container",
+      "type": {
+        "name": "Container",
+        "type": "record",
+        "fields": [
+          {
+            "name": "containerId",
+            "type": "string"
+          },
+          {
+            "name": "parent_id",
+            "type": ["null", "string"]
+          },
+          {
+            "name": "name",
+            "type": ["null", "string"]
+          },
+          {
+            "name": "containerType",
+            "type": ["null", "string"]
+          },
+          {
+            "name": "containerMetadata",
+            "type": ["null", "string"]
+          }
+        ]
+      }
+    },
+    {
+      "name": "fileInfo",
+      "type": ["null", {
+        "name": "FileInfo",
+        "type": "record",
+        "fields": [
+          {
+            "name": "fileName",
+            "type": ["null", "string"]
+          },
+          {
+            "name": "fileDefinition",
+            "type": ["null", {
+              "name": "FileDefinition",
+              "type": "record",
+              "fields": [
+                {
+                  "name": "timestampCreated",
+                  "type": [
+                    "null",
+                    {
+                      "type": "long",
+                      "logicalType": "timestamp-millis"
+                    }
+                  ],
+                  "doc": "File timestamp created from java BasicFileAttributes. When moving file from one folder to another on OS this property will be changed, while documentDateCreated stays same!"
+                },
+                {
+                  "name": "extension",
+                  "type": ["null", "string"]
+                }
+              ]
+            }]
+          },
+
+          {
+            "name": "fileMetadata",
+            "type": ["null", {
+              "name": "FileMetadata",
+              "type": "record",
+              "fields": [
+
+                {
+                  "name": "filePath",
+                  "type": ["null", "string"]
+                },
+
+                {
+                  "name": "size",
+                  "type": ["null", "long"]
+                },
+                {
+                  "name": "timestampModified",
+                  "type": [
+                    "null",
+                    {
+                      "type": "long",
+                      "logicalType": "timestamp-millis"
+                    }
+                  ],
+                  "doc": "File timestamp modified from java BasicFileAttributes."
+                },
+
+                {
+                  "name": "timestampLastAccess",
+                  "type": [
+                    "null",
+                    {
+                      "type": "long",
+                      "logicalType": "timestamp-millis"
+                    }
+                  ],
+                  "doc": "File timestamp of last access."
+                },
+
+                {
+                  "name": "isSystem",
+                  "type": ["null", "boolean"]
+                },
+
+                {
+                  "name": "isArchive",
+                  "type": ["null", "boolean"]
+                },
+
+                {
+                  "name": "isHidden",
+                  "type": ["null", "boolean"]
+                },
+
+                {
+                  "name": "isReadOnly",
+                  "type": ["null", "boolean"]
+                }
+              ]
+            }]
+          },
+          {
+            "name": "security",
+            "type": {
+              "name": "Security",
+              "type": "record",
+              "fields": [
+                {
+                  "name": "owner",
+                  "type": ["null", "string"]
+                },
+
+                {
+                  "name": "group",
+                  "type": ["null", "string"]
+                },
+
+                {
+                  "name": "permission",
+                  "type": ["null", "string"]
+                }
+              ]
+            }
+          }
+        ]
+      }]
+    },
+    {
+      "name": "mailInfo",
+      "type": ["null", {
+        "type": "record",
+        "name": "MailInfo",
+        "fields": [
+          {
+            "name": "subject",
+            "type": ["null", "string"]
+          },
+          {
+            "name": "mailDefinition",
+            "type": ["null", {
+              "name": "MailDefinition",
+              "type": "record",
+              "fields": [
+                {
+                  "name": "mailTo",
+                  "type": ["null", {
+                    "type": "array",
+                    "items": "string"
+                  } ]
+                },
+
+                {
+                  "name": "mailFrom",
+                  "type": ["null", "string"]
+                },
+
+                {
+                  "name": "mailCC",
+                  "type": ["null", {
+                    "type": "array",
+                    "items": "string"
+                  } ]
+                },
+
+                {
+                  "name": "mailBCC",
+                  "type": ["null", {
+                    "type": "array",
+                    "items": "string"
+                  } ]
+                },
+
+                {
+                  "name": "replyTo",
+                  "type": ["null", "string"],
+                  "doc": "Addresses to which replies should be directed. This will usually be the sender of the message, but some messages may direct replies to a different address"
+                },
+
+                {
+                  "name": "sentDate",
+                  "type": ["null", {
+                    "type": "long",
+                    "logicalType": "timestamp-millis"
+                  }]
+                },
+
+                {
+                  "name": "receivedDate",
+                  "type": ["null", {
+                    "type": "long",
+                    "logicalType": "timestamp-millis"
+                  }]
+                }
+              ]
+            }]
+          },
+          {
+            "name": "mailMetadata",
+            "type": ["null", {
+              "name": "MailMetadata",
+              "type": "record",
+              "fields": [
+                {
+                  "name": "folderName",
+                  "type": ["null","string"]
+                },
+
+                {
+                  "name": "isAnswered",
+                  "type": ["null", "boolean"]
+                },
+
+                {
+                  "name": "isDeleted",
+                  "type": ["null", "boolean"]
+                },
+
+                {
+                  "name": "isDraft",
+                  "type": ["null", "boolean"]
+                },
+
+                {
+                  "name": "isRecent",
+                  "type": ["null", "boolean"]
+                },
+
+                {
+                  "name": "isSeen",
+                  "type": ["null", "boolean"]
+                },
+
+                {
+                  "name": "isUser",
+                  "type": ["null", "boolean"],
+                  "doc": "A special flag that indicates that this folder supports user defined flags."
+                },
+
+                {
+                  "name": "isExpunged",
+                  "type": ["null", "boolean"],
+                  "doc": "Messages that are expunged due to an explict expunge() request on the containing Folder are removed from the Folder immediately. Messages that are externally expunged by another source are marked \"expunged\" and return true for the isExpunged() method, but they are not removed from the Folder until an explicit expunge() is done on the Folder."
+                }
+              ]
+            }]
+          }
+        ]
+      }]
+    }
+  ]
+}
